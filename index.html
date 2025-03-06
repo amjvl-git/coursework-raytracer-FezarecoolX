@@ -42,12 +42,12 @@ class Vec3
     
     // Calculate the dot product of this vector with the other and return the result
     dot(other) {
-
+        return((this.x * other.x) + (this.y * other.y) + (this.z * other.z))
     }
 
     // Calculate and return the magnitude of this vector
     magnitude() {
-        return new Vec3(sqrt(this.x ** 2, this.y ** 2, this.z ** 2))
+        return(Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2))
     }
     
     // Calculate and return the magnitude of this vector without the square root
@@ -57,7 +57,7 @@ class Vec3
 
     // Return a normalised version of this vector
     normalised() {
-        return new Vec3(this.x * this.magnitude(), this.y * this.magnitude(), this.z * this.magnitude(),)
+        return new Vec3(this.x * (1 / this.magnitude()), this.y * (1 / this.magnitude()), this.z * (1 / this.magnitude()))
     }
 }
 
@@ -166,6 +166,29 @@ for (let i = 0; i < imageWidth; i++)
         setPixel(i,j,colour)
     }
 }
+
+
+var vectorTest = new Vec3(3, 4, 5)
+var vectorTest2 = new Vec3(1, 2, 3)
+console.log("Testing the Vec3 class & its methods:")
+console.log(vectorTest)
+
+console.log("\nAdding (1, 2, 3): ")
+console.log(vectorTest.add(vectorTest2))
+console.log("\nSubtracting (1, 2, 3): ")
+console.log(vectorTest.minus(vectorTest2))
+console.log("\nMultiplying by (1, 2, 3): ")
+console.log(vectorTest.multiply(vectorTest2))
+console.log("\nScalar 3: ")
+console.log(vectorTest.scale(3))
+console.log("\nDot product: ")
+console.log(vectorTest.dot(vectorTest2))
+console.log("\nMagnitude: ")
+console.log(vectorTest.magnitude())
+console.log("\nMagnitude Squared (without the root): ")
+console.log(vectorTest.magnitudeSquared())
+console.log("\nNormalised: ")
+console.log(vectorTest.normalised())
 
 </script>
 
