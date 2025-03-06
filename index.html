@@ -47,17 +47,17 @@ class Vec3
 
     // Calculate and return the magnitude of this vector
     magnitude() {
-        return(Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2))
+        return(Math.sqrt((this.x ** 2) + (this.y ** 2) + (this.z ** 2)))
     }
     
     // Calculate and return the magnitude of this vector without the square root
     magnitudeSquared() {
-        return new Vec3(this.x ** 2, this.y ** 2, this.z ** 2)
+        return(this.x ** 2 + this.y ** 2 + this.z ** 2)
     }
 
     // Return a normalised version of this vector
     normalised() {
-        return new Vec3(this.x * (1 / this.magnitude()), this.y * (1 / this.magnitude()), this.z * (1 / this.magnitude()))
+        return new Vec3(this.x / this.magnitude(), this.y / this.magnitude(), this.z / this.magnitude())
     }
 }
 
