@@ -22,22 +22,22 @@ class Vec3
 
     // Add other vector to this one and return the result
     add(other) {
-        return new Vec3(this.x + other.x, this.y + other.y, this.z + other.z)
+        return(new Vec3(this.x + other.x, this.y + other.y, this.z + other.z))
     }
 
     // Subtract other vector from this one and return the result
     minus(other) {
-        return new Vec3(this.x - other.x, this.y - other.y, this.z - other.z)
+        return(new Vec3(this.x - other.x, this.y - other.y, this.z - other.z))
     }
 
     // Multiply other vector by this one and return the result
     multiply(other) {
-        return new Vec3(this.x * other.x, this.y * other.y, this.z * other.z)
+        return(new Vec3(this.x * other.x, this.y * other.y, this.z * other.z))
     }
 
     // Scale this vector by the number scalar and return the result
     scale(scalar) {
-        return new Vec3(this.x * scalar, this.y * scalar, this.z * scalar)
+        return(new Vec3(this.x * scalar, this.y * scalar, this.z * scalar))
     }
     
     // Calculate the dot product of this vector with the other and return the result
@@ -57,7 +57,7 @@ class Vec3
 
     // Return a normalised version of this vector
     normalised() {
-        return new Vec3(this.x / this.magnitude(), this.y / this.magnitude(), this.z / this.magnitude())
+        return(new Vec3(this.x / this.magnitude(), this.y / this.magnitude(), this.z / this.magnitude()))
     }
 }
 
@@ -167,10 +167,10 @@ for (let i = 0; i < imageWidth; i++)
     }
 }
 
-
+// TESTING VEC3 METHODS // 
 var vectorTest = new Vec3(3, 4, 5)
 var vectorTest2 = new Vec3(1, 2, 3)
-console.log("Testing the Vec3 class & its methods:")
+console.log("\nTesting the Vec3 class & its methods:")
 console.log(vectorTest)
 
 console.log("\nAdding (1, 2, 3): ")
@@ -189,6 +189,7 @@ console.log("\nMagnitude Squared (without the root): ")
 console.log(vectorTest.magnitudeSquared())
 console.log("\nNormalised: ")
 console.log(vectorTest.normalised())
+//////////////////////////
 
 </script>
 
