@@ -8,11 +8,15 @@ Your browser does not support the HTML canvas tag.
 </canvas>
 
 <p><b>BLUE SPHERE</b></p>
+<p>You can move the Blue sphere around with these sliders!</p>
 <div class="slidecontainer">
-    <input type="range" min="0" max="100" value="50" class="slider" id="myRangeX">
-    <input type="range" min="0" max="100" value="75" class="slider" id="myRangeY">
-    <input type="range" min="0" max="100" value="15" class="slider" id="myRangeZ">
+    <p>X</p><input type="range" min="0" max="100" value="50" class="slider" id="myRangeX">
+    <p>Y</p><input type="range" min="0" max="100" value="75" class="slider" id="myRangeY">
+    <p>Z</p><input type="range" min="0" max="100" value="70" class="slider" id="myRangeZ">
 </div>
+
+<p></p>
+<button type="button" id="button">Toggle Gamma Correction?</button> 
 
 <script>
 
@@ -188,6 +192,8 @@ function rayColour(ray)
         shadowCheck = true
     }
 
+    let gammaCorrection = 1 / 2.2
+
     let albedo = spheres[castResult.sphereIndex].colour
     let diffuse = Math.max(castResult.normal.dot(negLightDirection),0)
 
@@ -196,6 +202,10 @@ function rayColour(ray)
     let specular = (Math.max(r.dot(v),0)**100) * 0.8
 
     let colour = albedo.scale(0.05+diffuse+specular)
+
+    if (gammaButton == true) {
+        colour = new Vec3(colour.x**gammaCorrection,colour.y**gammaCorrection,colour.z**gammaCorrection)
+    }
     
     if (shadowCheck == true) {
         return colour.scale(0.4)
@@ -243,6 +253,8 @@ let colour = new Vec3(0,0,0)
 const lightDirection = new Vec3(-1.5,-1.5,-1.5).normalised()
 const negLightDirection =  new Vec3(-lightDirection.x,-lightDirection.y,-lightDirection.z)
 
+let gammaButton = false
+
 function drawFrame() {
     updatePos()
     for (let i = 0; i < imageWidth; i++)
@@ -259,8 +271,18 @@ function drawFrame() {
     }
 }
 
+button.onclick = function() {
+    if (gammaButton == true) {
+        gammaButton = false
+    }
+    else {
+        gammaButton = true
+    }
+    drawFrame()
+}
+
 function updatePos() {
-    spheres[1].centre = new Vec3((document.getElementById("myRangeX").value/100)-0.5,(document.getElementById("myRangeY").value/100)-0.5,(document.getElementById("myRangeZ").value/100)-1)
+    spheres[1].centre = new Vec3((document.getElementById("myRangeX").value/100)-0.5,(document.getElementById("myRangeY").value/100)-0.5,(document.getElementById("myRangeZ").value/100)-1.5)
 }
 
 document.getElementById("myRangeX").oninput = function() {
