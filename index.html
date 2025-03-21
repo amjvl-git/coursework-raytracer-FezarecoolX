@@ -255,6 +255,7 @@ const negLightDirection =  new Vec3(-lightDirection.x,-lightDirection.y,-lightDi
 
 let gammaButton = false
 
+//Function that draws everything on the Canvas
 function drawFrame() {
     updatePos()
     for (let i = 0; i < imageWidth; i++)
@@ -271,6 +272,12 @@ function drawFrame() {
     }
 }
 
+//Updates the Blue Sphere's location
+function updatePos() {
+    spheres[1].centre = new Vec3((document.getElementById("myRangeX").value/100)-0.5,(document.getElementById("myRangeY").value/100)-0.5,(document.getElementById("myRangeZ").value/100)-1.5)
+}
+
+//Function for the Gamma Correction button
 button.onclick = function() {
     if (gammaButton == true) {
         gammaButton = false
@@ -281,10 +288,7 @@ button.onclick = function() {
     drawFrame()
 }
 
-function updatePos() {
-    spheres[1].centre = new Vec3((document.getElementById("myRangeX").value/100)-0.5,(document.getElementById("myRangeY").value/100)-0.5,(document.getElementById("myRangeZ").value/100)-1.5)
-}
-
+//Updates the Canvas when the sliders are used
 document.getElementById("myRangeX").oninput = function() {
     drawFrame()
 }
