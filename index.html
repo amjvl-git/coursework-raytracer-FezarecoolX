@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html> 
 
 <body>
 
 <canvas id="canvas" width="400" height="300" style="border:1px solid#000000;">
 Your browser does not support the HTML canvas tag.
 </canvas>
+
+<p><b>BLUE SPHERE</b></p>
+<div class="slidecontainer">
+    <input type="range" min="0" max="100" value="50" class="slider" id="myRangeX">
+    <input type="range" min="0" max="100" value="75" class="slider" id="myRangeY">
+    <input type="range" min="0" max="100" value="15" class="slider" id="myRangeZ">
+</div>
 
 <script>
 
@@ -173,8 +180,7 @@ function rayColour(ray)
     let castResult = traceRay(ray)
     if(castResult.t < 0) return backgroundColour(ray)
 
-    let shadowRay = new Ray(castResult.position,negLightDirection)
-    let shadowResult = traceRay(shadowRay)
+    let shadowResult = traceRay(new Ray(castResult.position,negLightDirection))
     if (shadowResult.t < 0) {
         shadowCheck =  false
     }
@@ -182,13 +188,12 @@ function rayColour(ray)
         shadowCheck = true
     }
 
-
     let albedo = spheres[castResult.sphereIndex].colour
     let diffuse = Math.max(castResult.normal.dot(negLightDirection),0)
 
     let r = lightDirection.minus(castResult.normal).scale(2*castResult.normal.dot(lightDirection)).normalised()
-    let v = camPosition.minus(castResult.position).normalised()
-    let specular = Math.pow(Math.max(r.dot(v),0),100) * 0.8
+    let v = new Vec3(0.4,0.5,0).minus(castResult.position).normalised()
+    let specular = (Math.max(r.dot(v),0)**100) * 0.8
 
     let colour = albedo.scale(0.05+diffuse+specular)
     
@@ -211,9 +216,9 @@ function setPixel(x, y, colour)
     ctx.fillRect(x, c.height - y, 1, 1)
 }
 
-const spheres = new Array(
+let spheres = new Array(
     new Sphere(new Vec3(0,0,-1), 0.3, new Vec3(1,0,0)),       // Red sphere
-    new Sphere(new Vec3(0,0.2,-0.8), 0.15, new Vec3(0,0,1)),  // Blue sphere
+    new Sphere(new Vec3(0,0.2,-0.9), 0.15, new Vec3(0,0,1)),  // Blue sphere
     new Sphere(new Vec3(0,-100.5,-1), 100, new Vec3(0,1,0))   // Big green sphere
     );
 
@@ -236,20 +241,37 @@ let colour = new Vec3(0,0,0)
 let lightDirection = new Vec3(-1.1,-1.3,-1.5).normalised()
 let negLightDirection =  new Vec3(-lightDirection.x,-lightDirection.y,-lightDirection.z)
 
-for (let i = 0; i < imageWidth; i++)
-{
-    for (let j = 0; j <= imageHeight; j++)
+function drawFrame() {
+    updatePos()
+    for (let i = 0; i < imageWidth; i++)
     {
-        let u = i / (imageWidth - 1)
-        let v = j / (imageHeight - 1)
+        for (let j = 0; j <= imageHeight; j++)
+        {
+            let u = i / (imageWidth - 1)
+            let v = j / (imageHeight - 1)
 
-
-        let ray = new Ray(camPosition,lowerLeftCorner.add(horizontal.scale(u)).add(vertical.scale(v)).minus(camPosition))
-        colour = rayColour(ray).scale(255)
-        setPixel(i,j,colour)
+            let ray = new Ray(camPosition,lowerLeftCorner.add(horizontal.scale(u)).add(vertical.scale(v)).minus(camPosition))
+            colour = rayColour(ray).scale(255)
+            setPixel(i,j,colour)
+        }
     }
 }
 
+function updatePos() {
+    spheres[1].centre = new Vec3((document.getElementById("myRangeX").value/100)-0.5,(document.getElementById("myRangeY").value/100)-0.5,(document.getElementById("myRangeZ").value/100)-1)
+}
+
+document.getElementById("myRangeX").oninput = function() {
+    drawFrame()
+}
+document.getElementById("myRangeY").oninput = function() {
+    drawFrame()
+}
+document.getElementById("myRangeZ").oninput = function() {
+    drawFrame()
+}
+
+drawFrame()
 </script>
 
 </body>
